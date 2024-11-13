@@ -25,7 +25,7 @@ jobs:
       - name: Execute Visual Studio layout command
         run: |
           # 使用 cmd 执行布局命令
-          cmd /c "C:\VisualStudioSetup.exe --layout C:\VSLayout --config C:\.vsconfig"
+          cmd /c "C:\\VisualStudioSetup.exe --layout C:\\VSLayout --config C:\\.vsconfig"
 
       - name: Pack the downloaded content
         run: |
