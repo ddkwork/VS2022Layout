@@ -12,22 +12,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Download Visual Studio 2022 Enterprise
+      - name: Create layout directory
         run: |
-          # 下载 Visual Studio 2022 企业版安装程序
-          curl -L -o "C:\VisualStudioSetup.exe" "https://visualstudio.microsoft.com/zh-hans/thank-you-downloading-visual-studio/?sku=Enterprise&channel=Release&version=VS2022&source=VSLandingPage&passive=false&cid=2030"
-          # 检查文件是否下载成功
-          if not exist "C:\VisualStudioSetup.exe" (
-              echo VisualStudioSetup.exe 下载失败，文件未找到！
-              exit /b 1
-          )
-          # 输出文件大小
-          for %%I in ("C:\VisualStudioSetup.exe") do echo 文件已下载：%%~nxI，大小：%%~zI 字节
+          # 创建布局目录
+          md C:\VSLayout
 
       - name: Execute Visual Studio layout command
         run: |
-          # 使用 CMD 命令执行布局命令
-          "C:\VisualStudioSetup.exe" --layout "C:\VSLayout" --config "%GITHUB_WORKSPACE%\.vsconfig"
+          # 使用 CMD 命令执行布局命令，假设 VisualStudioSetup.exe 在根目录
+          "C:\github\<your-repo-name>\VisualStudioSetup.exe" --layout "C:\VSLayout" --config "%GITHUB_WORKSPACE%\.vsconfig"
 
       - name: Pack the downloaded content
         run: |
@@ -42,6 +35,5 @@ jobs:
 
       - name: Clean up
         run: |
-          # 删除临时下载文件
-          del /q C:\VisualStudioSetup.exe
+          # 删除临时布局目录
           rmdir /s /q C:\VSLayout
