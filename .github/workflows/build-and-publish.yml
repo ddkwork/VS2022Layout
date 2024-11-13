@@ -14,14 +14,15 @@ jobs:
 
       - name: Create download directory
         run: |
-          # 在C盘创建下载目录
-          mkdir C:\Admin\vs2022VC
+          # 在C盘创建下载目录（如果已存在不会抛出错误）
+          New-Item -ItemType Directory -Path C:\Admin\vs2022VC -Force
 
       - name: Download Visual Studio 2022 Enterprise
         run: |
           # 下载Visual Studio 2022企业版安装程序
           Invoke-WebRequest -Uri "https://aka.ms/vs/17/release/VisualStudioSetup.exe" -OutFile "C:\Admin\vs2022VC\VisualStudioSetup.exe"
-          # 检查文件是否下载成功
+          
+          # 检查文件是否下载成功并有效
           if (-Not (Test-Path "C:\Admin\vs2022VC\VisualStudioSetup.exe")) {
             Write-Error "VisualStudioSetup.exe 下载失败，文件未找到！"
             exit 1
@@ -30,22 +31,15 @@ jobs:
           $fileInfo = Get-Item "C:\Admin\vs2022VC\VisualStudioSetup.exe"
           Write-Host "文件已下载：$($fileInfo.FullName)，大小：$($fileInfo.Length) 字节"
 
-      - name: Check if the file is executable
-        run: |
-          # 检查文件的可执行性
-          $filePath = "C:\Admin\vs2022VC\VisualStudioSetup.exe"
-          if (-Not ([System.IO.File]::Exists($filePath))) {
-            Write-Error "文件不存在"
-            exit 1
-          } elseif (-Not ([System.IO.File]::GetAttributes($filePath) -band [System.IO.FileAttributes]::ReadOnly)) {
-            Write-Host "文件是可执行的。"
-          } else {
-            Write-Error "文件不可执行！"
+          # 如果文件大小小于 100 字节则视为无效文件
+          if ($fileInfo.Length -lt 100) {
+            Write-Error "下载的文件可能无效，文件大小为：$($fileInfo.Length) 字节"
             exit 1
           }
 
       - name: Execute Visual Studio layout command
         run: |
+          # 验证文件是否为可执行文件，然后尝试执行
           Start-Process -Wait -FilePath "C:\Admin\vs2022VC\VisualStudioSetup.exe" -ArgumentList "--layout C:\Admin\vs2022VC\VSLayout --config `"$GITHUB_WORKSPACE\.vsconfig`""
 
       - name: Pack the downloaded content
