@@ -12,6 +12,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
+      - name: Copy .vsconfig to C:\
+        run: |
+          # 将 .vsconfig 文件复制到 C 盘根目录
+          copy ".\.vsconfig" "C:\.vsconfig"
+
       - name: Create layout directory
         run: |
           # 创建布局目录
@@ -20,7 +25,7 @@ jobs:
       - name: Execute Visual Studio layout command
         run: |
           # 使用 CMD 命令执行布局命令
-          "C:\VisualStudioSetup.exe" --layout "C:\VSLayout" --config "%GITHUB_WORKSPACE%\.vsconfig"
+          "C:\VisualStudioSetup.exe" --layout "C:\VSLayout" --config "C:\.vsconfig"
 
       - name: Pack the downloaded content
         run: |
@@ -35,5 +40,6 @@ jobs:
 
       - name: Clean up
         run: |
-          # 删除临时布局目录
+          # 删除临时布局目录和 .vsconfig 文件
           rmdir /s /q C:\VSLayout
+          del /q C:\.vsconfig
