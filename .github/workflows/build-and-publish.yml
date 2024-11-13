@@ -21,10 +21,17 @@ jobs:
         run: |
           # 下载Visual Studio 2022企业版安装程序
           Invoke-WebRequest -Uri "https://aka.ms/vs/17/release/VisualStudioSetup.exe" -OutFile "C:\Admin\vs2022VC\VisualStudioSetup.exe"
+          # 检查文件是否下载成功
+          if (-Not (Test-Path "C:\Admin\vs2022VC\VisualStudioSetup.exe")) {
+            Write-Error "VisualStudioSetup.exe 下载失败，文件未找到！"
+            exit 1
+          }
+          # 输出文件信息
+          Get-Item "C:\Admin\vs2022VC\VisualStudioSetup.exe"
 
       - name: Execute Visual Studio layout command
         run: |
-          # 进入下载目录并执行布局命令
+          # 确保运行此命令前文件已成功下载
           Start-Process -Wait -FilePath "C:\Admin\vs2022VC\VisualStudioSetup.exe" -ArgumentList "--layout C:\Admin\vs2022VC\VSLayout --config `"$GITHUB_WORKSPACE\.vsconfig`""
 
       - name: Pack the downloaded content
