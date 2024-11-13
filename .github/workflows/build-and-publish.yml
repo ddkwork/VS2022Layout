@@ -12,35 +12,36 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Create download directory
-        run: |
-          md C:\Admin\vs2022VC
-
       - name: Download Visual Studio 2022 Enterprise
         run: |
-          curl -L -o "C:\Admin\vs2022VC\VisualStudioSetup.exe" "https://aka.ms/vs/17/release/VisualStudioSetup.exe"
-          rem 检查文件是否下载成功
-          if not exist "C:\Admin\vs2022VC\VisualStudioSetup.exe" (
+          # 下载 Visual Studio 2022 企业版安装程序
+          curl -L -o "C:\VisualStudioSetup.exe" "https://aka.ms/vs/17/release/VisualStudioSetup.exe"
+          # 检查文件是否下载成功
+          if not exist "C:\VisualStudioSetup.exe" (
               echo VisualStudioSetup.exe 下载失败，文件未找到！
               exit /b 1
           )
-          rem 输出文件大小
-          for %%I in ("C:\Admin\vs2022VC\VisualStudioSetup.exe") do echo 文件已下载：%%~nxI，大小：%%~zI 字节
+          # 输出文件大小
+          for %%I in ("C:\VisualStudioSetup.exe") do echo 文件已下载：%%~nxI，大小：%%~zI 字节
 
       - name: Execute Visual Studio layout command
         run: |
-          "C:\Admin\vs2022VC\VisualStudioSetup.exe" --layout C:\Admin\vs2022VC\VSLayout --config "%GITHUB_WORKSPACE%\.vsconfig"
+          # 使用 CMD 命令执行布局命令
+          "C:\VisualStudioSetup.exe" --layout "C:\VSLayout" --config "%GITHUB_WORKSPACE%\.vsconfig"
 
       - name: Pack the downloaded content
         run: |
-          "C:\Program Files\7-Zip\7z.exe" a -tZST "C:\Admin\vs2022VC\VSLayout.tar.zst" "C:\Admin\vs2022VC\VSLayout\*"
+          # 先确保 7-Zip 可用，然后打包为 tar.zst 格式
+          "C:\Program Files\7-Zip\7z.exe" a -tZST "C:\VSLayout.tar.zst" "C:\VSLayout\*"
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: VS2022-Layout-Artifact  # 提供上传文件的名称
-          path: C:\Admin\vs2022VC\VSLayout.tar.zst  # 指定需要上传的tar.zst文件路径
+          path: C:\VSLayout.tar.zst  # 指定需要上传的 tar.zst 文件路径
 
       - name: Clean up
         run: |
-          rmdir /s /q C:\Admin\vs2022VC
+          # 删除临时下载文件
+          del /q C:\VisualStudioSetup.exe
+          rmdir /s /q C:\VSLayout
