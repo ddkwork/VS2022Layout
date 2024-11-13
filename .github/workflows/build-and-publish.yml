@@ -19,8 +19,8 @@ jobs:
 
       - name: Execute Visual Studio layout command
         run: |
-          # 使用 CMD 命令执行布局命令，假设 VisualStudioSetup.exe 在根目录
-          "C:\github\<your-repo-name>\VisualStudioSetup.exe" --layout "C:\VSLayout" --config "%GITHUB_WORKSPACE%\.vsconfig"
+          # 使用 CMD 命令执行布局命令
+          "C:\VisualStudioSetup.exe" --layout "C:\VSLayout" --config "%GITHUB_WORKSPACE%\.vsconfig"
 
       - name: Pack the downloaded content
         run: |
