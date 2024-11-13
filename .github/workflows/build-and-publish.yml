@@ -26,12 +26,26 @@ jobs:
             Write-Error "VisualStudioSetup.exe 下载失败，文件未找到！"
             exit 1
           }
-          # 输出文件信息
-          Get-Item "C:\Admin\vs2022VC\VisualStudioSetup.exe"
+          # 输出文件信息，检查文件大小等
+          $fileInfo = Get-Item "C:\Admin\vs2022VC\VisualStudioSetup.exe"
+          Write-Host "文件已下载：$($fileInfo.FullName)，大小：$($fileInfo.Length) 字节"
+
+      - name: Check if the file is executable
+        run: |
+          # 检查文件的可执行性
+          $filePath = "C:\Admin\vs2022VC\VisualStudioSetup.exe"
+          if (-Not ([System.IO.File]::Exists($filePath))) {
+            Write-Error "文件不存在"
+            exit 1
+          } elseif (-Not ([System.IO.File]::GetAttributes($filePath) -band [System.IO.FileAttributes]::ReadOnly)) {
+            Write-Host "文件是可执行的。"
+          } else {
+            Write-Error "文件不可执行！"
+            exit 1
+          }
 
       - name: Execute Visual Studio layout command
         run: |
-          # 确保运行此命令前文件已成功下载
           Start-Process -Wait -FilePath "C:\Admin\vs2022VC\VisualStudioSetup.exe" -ArgumentList "--layout C:\Admin\vs2022VC\VSLayout --config `"$GITHUB_WORKSPACE\.vsconfig`""
 
       - name: Pack the downloaded content
