@@ -14,14 +14,12 @@ jobs:
 
       - name: Create download directory
         run: |
-          # 在C盘创建下载目录
           md C:\Admin\vs2022VC
 
       - name: Download Visual Studio 2022 Enterprise
         run: |
-          # 下载Visual Studio 2022企业版安装程序
           curl -L -o "C:\Admin\vs2022VC\VisualStudioSetup.exe" "https://aka.ms/vs/17/release/VisualStudioSetup.exe"
-          # 检查文件是否下载成功
+          rem 检查文件是否下载成功
           if not exist "C:\Admin\vs2022VC\VisualStudioSetup.exe" (
               echo VisualStudioSetup.exe 下载失败，文件未找到！
               exit /b 1
@@ -31,12 +29,10 @@ jobs:
 
       - name: Execute Visual Studio layout command
         run: |
-          # 使用CMD命令执行布局命令
           "C:\Admin\vs2022VC\VisualStudioSetup.exe" --layout C:\Admin\vs2022VC\VSLayout --config "%GITHUB_WORKSPACE%\.vsconfig"
 
       - name: Pack the downloaded content
         run: |
-          # 使用7-Zip打包为tar.zst格式
           "C:\Program Files\7-Zip\7z.exe" a -tZST "C:\Admin\vs2022VC\VSLayout.tar.zst" "C:\Admin\vs2022VC\VSLayout\*"
 
       - name: Upload Build Artifacts
@@ -47,5 +43,4 @@ jobs:
 
       - name: Clean up
         run: |
-          # 删除临时下载文件
           rmdir /s /q C:\Admin\vs2022VC
