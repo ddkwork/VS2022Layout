@@ -2,8 +2,8 @@ name: DownloadVS2022
 on:
   push:
     branches:
-      - master  # 替换为你的主分支名称
-  workflow_dispatch:
+      - master  # 当推送到 master 分支时触发
+  workflow_dispatch:  # 允许手动触发
 
 jobs:
   download_vs:
@@ -14,24 +14,31 @@ jobs:
 
       - name: Download Visual Studio 2022 Enterprise
         run: |
+          # 创建下载目录
           mkdir D:\Admin\vs2022VC
+          
+          # 下载Visual Studio 2022企业版安装程序
           Invoke-WebRequest -Uri "https://aka.ms/vs/17/release/VisualStudioSetup.exe" -OutFile "D:\Admin\vs2022VC\VisualStudioSetup.exe"
 
       - name: Execute Visual Studio layout command
         run: |
+          # 进入下载目录
           cd D:\Admin\vs2022VC
-          Start-Process -Wait -FilePath "VisualStudioSetup.exe" -ArgumentList '--layout D:\Admin\vs2022VC\VSLayout --config "D:\Admin\vs2022VC\.vsconfig"'
+          # 执行布局命令，确保引用根目录的 .vsconfig 文件
+          Start-Process -Wait -FilePath "D:\Admin\vs2022VC\VisualStudioSetup.exe" -ArgumentList "--layout D:\Admin\vs2022VC\VSLayout --config `"$GITHUB_WORKSPACE\.vsconfig`""
 
       - name: Pack the downloaded content
         run: |
+          # 使用7-Zip打包为tar.zst格式
           & 'C:\Program Files\7-Zip\7z.exe' a -tZST "D:\Admin\vs2022VC\VSLayout.tar.zst" "D:\Admin\vs2022VC\VSLayout\*"
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: VS2022-Layout-Artifact
-          path: D:\Admin\vs2022VC\VSLayout.tar.zst
+          name: VS2022-Layout-Artifact  # 提供上传文件的名称
+          path: D:\Admin\vs2022VC\VSLayout.tar.zst  # 指定需要上传的tar.zst文件路径
 
       - name: Clean up
         run: |
+          # 删除临时下载文件
           Remove-Item -Recurse -Force D:\Admin\vs2022VC
