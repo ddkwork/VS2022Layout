@@ -15,7 +15,7 @@ jobs:
       - name: Download Visual Studio 2022 Enterprise
         run: |
           # 下载 Visual Studio 2022 企业版安装程序
-          curl -L -o "C:\VisualStudioSetup.exe" "https://aka.ms/vs/17/release/VisualStudioSetup.exe"
+          curl -L -o "C:\VisualStudioSetup.exe" "https://aka.ms/vs/17/release/vs_enterprise.exe"
           # 检查文件是否下载成功
           if not exist "C:\VisualStudioSetup.exe" (
               echo VisualStudioSetup.exe 下载失败，文件未找到！
