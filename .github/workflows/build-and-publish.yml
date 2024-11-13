@@ -14,38 +14,30 @@ jobs:
 
       - name: Create download directory
         run: |
-          # 在C盘创建下载目录（如果已存在不会抛出错误）
-          New-Item -ItemType Directory -Path C:\Admin\vs2022VC -Force
+          # 在C盘创建下载目录
+          md C:\Admin\vs2022VC
 
       - name: Download Visual Studio 2022 Enterprise
         run: |
           # 下载Visual Studio 2022企业版安装程序
-          Invoke-WebRequest -Uri "https://aka.ms/vs/17/release/VisualStudioSetup.exe" -OutFile "C:\Admin\vs2022VC\VisualStudioSetup.exe"
-          
-          # 检查文件是否下载成功并有效
-          if (-Not (Test-Path "C:\Admin\vs2022VC\VisualStudioSetup.exe")) {
-            Write-Error "VisualStudioSetup.exe 下载失败，文件未找到！"
-            exit 1
-          }
-          # 输出文件信息，检查文件大小等
-          $fileInfo = Get-Item "C:\Admin\vs2022VC\VisualStudioSetup.exe"
-          Write-Host "文件已下载：$($fileInfo.FullName)，大小：$($fileInfo.Length) 字节"
-
-          # 如果文件大小小于 100 字节则视为无效文件
-          if ($fileInfo.Length -lt 100) {
-            Write-Error "下载的文件可能无效，文件大小为：$($fileInfo.Length) 字节"
-            exit 1
-          }
+          curl -L -o "C:\Admin\vs2022VC\VisualStudioSetup.exe" "https://aka.ms/vs/17/release/VisualStudioSetup.exe"
+          # 检查文件是否下载成功
+          if not exist "C:\Admin\vs2022VC\VisualStudioSetup.exe" (
+              echo VisualStudioSetup.exe 下载失败，文件未找到！
+              exit /b 1
+          )
+          rem 输出文件大小
+          for %%I in ("C:\Admin\vs2022VC\VisualStudioSetup.exe") do echo 文件已下载：%%~nxI，大小：%%~zI 字节
 
       - name: Execute Visual Studio layout command
         run: |
-          # 验证文件是否为可执行文件，然后尝试执行
-          Start-Process -Wait -FilePath "C:\Admin\vs2022VC\VisualStudioSetup.exe" -ArgumentList "--layout C:\Admin\vs2022VC\VSLayout --config `"$GITHUB_WORKSPACE\.vsconfig`""
+          # 使用CMD命令执行布局命令
+          "C:\Admin\vs2022VC\VisualStudioSetup.exe" --layout C:\Admin\vs2022VC\VSLayout --config "%GITHUB_WORKSPACE%\.vsconfig"
 
       - name: Pack the downloaded content
         run: |
           # 使用7-Zip打包为tar.zst格式
-          & 'C:\Program Files\7-Zip\7z.exe' a -tZST "C:\Admin\vs2022VC\VSLayout.tar.zst" "C:\Admin\vs2022VC\VSLayout\*"
+          "C:\Program Files\7-Zip\7z.exe" a -tZST "C:\Admin\vs2022VC\VSLayout.tar.zst" "C:\Admin\vs2022VC\VSLayout\*"
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
@@ -56,4 +48,4 @@ jobs:
       - name: Clean up
         run: |
           # 删除临时下载文件
-          Remove-Item -Recurse -Force C:\Admin\vs2022VC
+          rmdir /s /q C:\Admin\vs2022VC
