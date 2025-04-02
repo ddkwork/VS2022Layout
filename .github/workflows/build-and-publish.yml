@@ -33,7 +33,7 @@ jobs:
           cmd /c "C:\Program Files\7-Zip\7z.exe a -tZST C:\VSLayout.tar.zst C:\VSLayout\*"
 
       - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: VS2022-Layout-Artifact  # 提供上传文件的名称
           path: C:\VSLayout.tar.zst  # 指定需要上传的 tar.zst 文件路径
