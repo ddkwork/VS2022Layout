@@ -14,7 +14,7 @@ jobs:
 
       - name: offline Visual Studio 2022 layout
         run: |
-          cmd /c "VisualStudioSetup.exe --passive  --lang zh-CN --layout VSLayout --fix --useLatestInstaller --config .vsconfig "
+          cmd /c "VisualStudioSetup.exe --passive  --lang zh-CN --layout VSLayout  --useLatestInstaller --config .vsconfig "
 
       - name: Pack layout
         run: |
