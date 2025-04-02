@@ -1,4 +1,4 @@
-name: vs2022 offline
+name: ci
 on:
   push:
     branches:
@@ -12,7 +12,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: download Visual Studio layout
+      - name: offline Visual Studio 2022 layout
         run: |
           cmd /c "VisualStudioSetup.exe --passive  --lang zh-CN --layout VSLayout --fix --useLatestInstaller --config .vsconfig "
 
