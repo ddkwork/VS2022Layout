@@ -1,4 +1,4 @@
-name: DownloadVS2022
+name: vs2022 offline
 on:
   push:
     branches:
