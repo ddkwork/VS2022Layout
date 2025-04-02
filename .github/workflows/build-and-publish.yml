@@ -12,19 +12,13 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Install 7-Zip
-        uses: crazy-max/ghaction-7zip@v2
-
-      - name: Install Zstd
-        run: choco install zstandard -y
-
       - name: Execute Visual Studio layout command
         run: |
           cmd /c "VisualStudioSetup.exe --layout VSLayout --config .vsconfig"
 
       - name: Pack the downloaded content
         run: |
-          cmd /c "tar --zstd -cvf VSLayout.tar.zst VSLayout\*"
+          cmd /c "7z a VSLayout.7z VSLayout\*"
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
