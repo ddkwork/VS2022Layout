@@ -24,4 +24,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: VS2022-Layout-Artifact
-          path: VSLayout.tar.zst
+          path: VSLayout.7z
