@@ -1,1 +1,1 @@
-VisualStudioSetup.exe --layout D:/Admin/vs2022VC/VSLayout --config ""D:/Admin/vs2022VC/.vsconfig""
+VisualStudioSetup.exe --layout VSLayout --config .vsconfig

@@ -12,10 +12,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Copy .vsconfig to C:\
-        run: |
-          # 将 .vsconfig 文件复制到 C 盘根目录
-          copy ".\.vsconfig" "C:\.vsconfig"
+#      - name: Copy .vsconfig to C:\
+#        run: |
+#          # 将 .vsconfig 文件复制到 C 盘根目录
+#          copy ".\.vsconfig" "C:\.vsconfig"
 
       - name: Create layout directory
         run: |
@@ -25,21 +25,21 @@ jobs:
       - name: Execute Visual Studio layout command
         run: |
           # 使用 cmd 执行布局命令
-          cmd /c "C:\\VisualStudioSetup.exe --layout C:\\VSLayout --config C:\\.vsconfig"
+          cmd /c "VisualStudioSetup.exe --layout C:\\VSLayout --config .vsconfig"
 
       - name: Pack the downloaded content
         run: |
           # 先确保 7-Zip 可用，然后打包为 tar.zst 格式
-          cmd /c "C:\Program Files\7-Zip\7z.exe a -tZST C:\VSLayout.tar.zst C:\VSLayout\*"
+          cmd /c "C:\Program Files\7-Zip\7z.exe a -tZST VSLayout.tar.zst VSLayout\*"
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: VS2022-Layout-Artifact  # 提供上传文件的名称
-          path: C:\VSLayout.tar.zst  # 指定需要上传的 tar.zst 文件路径
+          path: VSLayout.tar.zst  # 指定需要上传的 tar.zst 文件路径
 
-      - name: Clean up
-        run: |
-          # 删除临时布局目录和 .vsconfig 文件
-          cmd /c "rmdir /s /q C:\VSLayout"
-          cmd /c "del /q C:\.vsconfig"
+#      - name: Clean up
+#        run: |
+#          # 删除临时布局目录和 .vsconfig 文件
+#          cmd /c "rmdir /s /q C:\VSLayout"
+#          cmd /c "del /q C:\.vsconfig"
