@@ -12,15 +12,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Execute Visual Studio layout command
+      - name: download Visual Studio layout
         run: |
           cmd /c "VisualStudioSetup.exe --passive  --lang zh-CN --layout VSLayout --fix --useLatestInstaller --config .vsconfig "
 
-      - name: Pack the downloaded content
+      - name: Pack layout
         run: |
           cmd /c "7z a VSLayout.7z VSLayout\*"
 
-      - name: Upload Build Artifacts
+      - name: Upload packed layout
         uses: actions/upload-artifact@v4
         with:
           name: VS2022-Layout-Artifact
