@@ -14,7 +14,7 @@ jobs:
 
       - name: Execute Visual Studio layout command
         run: |
-          cmd /c "VisualStudioSetup.exe --passive  --layout VSLayout --config .vsconfig"
+          cmd /c "VisualStudioSetup.exe --passive  --lang zh-CN --layout VSLayout --config .vsconfig"
 
       - name: Pack the downloaded content
         run: |
