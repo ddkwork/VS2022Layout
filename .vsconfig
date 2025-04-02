@@ -18,6 +18,7 @@
     "Microsoft.VisualStudio.Component.NuGet",
     "Microsoft.Component.ClickOnce",
     "Microsoft.VisualStudio.Component.ManagedDesktop.Core",
+    "Microsoft.NetCore.Component.Runtime.9.0",
     "Microsoft.NetCore.Component.Runtime.8.0",
     "Microsoft.NetCore.Component.SDK",
     "Microsoft.VisualStudio.Component.FSharp",
@@ -40,7 +41,6 @@
     "Microsoft.VisualStudio.Component.VC.Tools.x86.x64",
     "Microsoft.VisualStudio.Component.Graphics.Tools",
     "Microsoft.VisualStudio.Component.VC.DiagnosticTools",
-    "Microsoft.VisualStudio.Component.Windows11SDK.26100",
     "Microsoft.VisualStudio.Component.ManagedDesktop.Prerequisites",
     "Microsoft.VisualStudio.Component.DotNetModelBuilder",
     "Microsoft.ComponentGroup.Blend",
@@ -58,11 +58,10 @@
     "Microsoft.VisualStudio.Component.VC.TestAdapterForGoogleTest",
     "Microsoft.VisualStudio.Component.VC.ASAN",
     "Microsoft.VisualStudio.Component.Vcpkg",
+    "Microsoft.VisualStudio.Component.Windows11SDK.26100",
     "Microsoft.VisualStudio.Workload.NativeDesktop",
-    "Microsoft.VisualStudio.Component.VC.14.40.17.10.x86.x64",
-    "Microsoft.VisualStudio.Component.VC.14.40.17.10.x86.x64.Spectre",
-    "Microsoft.VisualStudio.Component.VC.14.40.17.10.ATL.Spectre",
-    "Microsoft.VisualStudio.Component.VC.14.40.17.10.MFC.Spectre"
+    "Microsoft.VisualStudio.Component.VC.Runtimes.x86.x64.Spectre",
+    "Component.Microsoft.Windows.DriverKit"
   ],
   "extensions": []
 }
