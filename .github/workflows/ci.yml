@@ -21,22 +21,17 @@ jobs:
         run: |
           cmd /c "vs_enterprise.exe --passive  --lang zh-CN --layout VSLayout  --useLatestInstaller --config .vsconfig "
 
-      - name: Install winget
-        uses: Cyberboss/install-winget@v1
-
-      - name: 卸载原有的7-Zip
-        shell: powershell
-        run: |
-          winget uninstall --id=7zip.7zip -h
-
-      - name: 安装7-Zip
-        shell: powershell
-        run: |
-          winget install --id=mcmilk.7zip-zstd -e --accept-package-agreements --accept-source-agreements
+      #      - name: Install winget
+      #        uses: Cyberboss/install-winget@v1
+      #
+      #      - name: 安装7-Zip
+      #        shell: powershell
+      #        run: |
+      #          winget install --id=mcmilk.7zip-zstd -e --accept-package-agreements --accept-source-agreements
 
       - name: Pack layout
         run: |
-          cmd /c "7z a -m0=zstd -mmt=8 VSLayout.zst VSLayout\*"
+          cmd /c "7-Zip-Zstandard/7z a -m0=zstd -mmt=8 VSLayout.zst VSLayout\*"
 
       - name: Upload packed layout
         uses: actions/upload-artifact@v4
