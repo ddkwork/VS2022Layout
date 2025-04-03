@@ -27,7 +27,7 @@ jobs:
       - name: 安装7-Zip
         shell: powershell
         run: |
-          winget install --id=mcmilk.7zip-zstd -e -y
+          winget install --id=mcmilk.7zip-zstd -e --accept-package-agreements --accept-source-agreements
 
       - name: Pack layout
         run: |
