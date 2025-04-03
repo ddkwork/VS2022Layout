@@ -21,6 +21,9 @@ jobs:
         run: |
           cmd /c "vs_enterprise.exe --passive  --lang zh-CN --layout VSLayout  --useLatestInstaller --config .vsconfig "
 
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
+
       - name: 安装7-Zip
         shell: powershell
         run: |
