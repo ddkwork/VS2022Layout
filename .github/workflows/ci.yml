@@ -1,0 +1,32 @@
+name: ci
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  download_vs:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: 下载安装程序
+        shell: powershell
+        run: |
+          Invoke-WebRequest -Uri "https://aka.ms/vs/17/release/vs_enterprise.exe" -OutFile vs_enterprise.exe
+
+      - name: offline Visual Studio 2022 layout
+        run: |
+          cmd /c "vs_enterprise.exe --passive  --lang zh-CN --layout VSLayout  --useLatestInstaller --config .vsconfig "
+
+      - name: Pack layout
+        run: |
+          cmd /c "7z a VSLayout.7z VSLayout\*"
+
+      - name: Upload packed layout
+        uses: actions/upload-artifact@v4
+        with:
+          name: VS2022-Layout-Artifact
+          path: VSLayout.7z
