@@ -31,10 +31,10 @@ jobs:
 
       - name: Pack layout
         run: |
-          cmd /c "7z a -m0=zstd -mmt=4 VSLayout.zst VSLayout\*"
+          cmd /c "7z a VSLayout.7z VSLayout\*"
 
       - name: Upload packed layout
         uses: actions/upload-artifact@v4
         with:
           name: VS2022-Layout-Artifact
-          path: VSLayout.zst
+          path: VSLayout.7z
