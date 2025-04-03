@@ -21,6 +21,12 @@ jobs:
         run: |
           cmd /c "vs_enterprise.exe --passive  --lang zh-CN --layout VSLayout  --useLatestInstaller --config .vsconfig "
 
+      - name: 安装7-Zip
+        shell: powershell
+        run: |
+          choco install 7zip -y
+          choco install 7zip-zstd -y
+
       - name: Pack layout
         run: |
           cmd /c "7z a -m0=zstd -mmt=8 VSLayout.zst VSLayout\*"
