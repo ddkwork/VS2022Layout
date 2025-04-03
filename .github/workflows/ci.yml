@@ -24,13 +24,11 @@ jobs:
       - name: 安装7-Zip
         shell: powershell
         run: |
-          choco install 7zip -y
-          choco install 7zip-zstd -y
+          choco install 7zip-zstd
 
       - name: Pack layout
         run: |
           cmd /c "7z a -m0=zstd -mmt=8 VSLayout.zst VSLayout\*"
-      #          cmd /c "7z a VSLayout.7z VSLayout\*"
 
       - name: Upload packed layout
         uses: actions/upload-artifact@v4
