@@ -24,6 +24,11 @@ jobs:
       - name: Install winget
         uses: Cyberboss/install-winget@v1
 
+      - name: 卸载原有的7-Zip
+        shell: powershell
+        run: |
+          winget uninstall --id=7zip.7zip -h
+
       - name: 安装7-Zip
         shell: powershell
         run: |
