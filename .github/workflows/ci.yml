@@ -31,7 +31,7 @@ jobs:
 
       - name: Pack layout
         run: |
-          cmd /c "7z a -m0=zstd -mmt=8 VSLayout.zst VSLayout\*"
+          cmd /c "7z a -m0=zstd -mmt=4 VSLayout.zst VSLayout\*"
 
       - name: Upload packed layout
         uses: actions/upload-artifact@v4
